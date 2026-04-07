@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  background: #ffffff;
+  text-align: center;
+}
+
+/* CENTRADO */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+select {
+  width: 90% !important;
+  padding: 10px;
+  border: 2px solid red;;
+}
+
+/* TARJETAS */
+.card {
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 5%;
+}
+
+/* INPUTS */
+input,
+select {
+  width: 80%;
+  padding: 20px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 130%;
+}
+
+/* BOTONES */
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 20px;
+  border-radius: 5px;
+  width: 90%;
+  cursor: pointer;
+  font-size: 130%;
+}
+
+/* ESTADOS */
+.estado {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.en-espera {
+  background: orange;
+}
+
+.atendido {
+  background: green;
+}
+
+.cancelado {
+  background: red;
+}
+
+/* TABLA */
+.tabla-center {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+}
+
+.contenedor {
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  width: 90%;
+}
+
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
