@@ -30,16 +30,33 @@ select {
   padding: 20px;
   border-radius: 5%;
 }
+.form {
+  text-align: left;
+  padding: 0 20px;
+}
+
+.form label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+img {
+  clip-path: circle(40%);
+  width: 45%;
+  height: 45%;
+}
 
 /* INPUTS */
 input,
 select {
-  width: 80%;
-  padding: 20px;
-  margin: 10px 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 130%;
+  font-size: 100%;
 }
 
 /* BOTONES */
@@ -99,4 +116,164 @@ td {
   padding: 10px;
   border-bottom: 1px solid #ccc;
   text-align: center;
+}
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+.link-text {
+  text-align: center;
+  margin-top: 20px;
+}
+.btn-form {
+  display: block;
+  margin: 20px auto;
+  width: 90%;
+}
+/* ENCABEZADO */
+.header {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:15px;
+  padding:20px;
+}
+
+.header img {
+  width:70px;
+  height:70px;
+}
+
+
+/* CONTENEDOR */
+.contenedor-turno {
+  text-align:center;
+  width:90%;
+  max-width:600px;
+  margin:auto;
+}
+
+
+/* SERVICIOS */
+.servicios {
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+
+.servicio {
+
+  border:1px solid #ccc;
+  border-radius:15px;
+  width:200px;
+  padding:20px;
+  cursor:pointer;
+  transition:0.3s;
+
+}
+
+
+.servicio:hover {
+
+  background:#007bff;
+  color:white;
+
+}
+
+
+/* FORMULARIO TURNO */
+.formulario-turno {
+
+  margin-top:30px;
+
+}
+
+
+.formulario-turno select {
+
+  width:100%;
+  padding:15px;
+  border-radius:5px;
+  border:1px solid #ccc;
+
+}
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  margin: 10px 0 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 100%;
+}
+.btn-cancelar,
+.btn-form {
+  margin-top: 15px;
+}
+
+.error-card {
+  text-align: center;
+}
+
+.error-card img {
+  width: 120px;
+  height: 120px;
+}
+
+.error-card p {
+  font-size: 18px;
+  margin: 20px;
+}
+/* ATENCION DE TURNOS */
+
+
+.turno-actual {
+
+  text-align:center;
+  margin-bottom:30px;
+
+}
+
+
+.turno-actual .numero-turno {
+
+  color:#007bff;
+  font-size:50px;
+
+}
+
+
+
+.lista-espera {
+
+  width:100%;
+
+}
+
+
+.turno-espera {
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  border-bottom:1px solid #ccc;
+
+  padding:15px;
+
+  background:white;
+
+}
+
+
+.turno-espera strong {
+
+  font-size:20px;
+
 }
