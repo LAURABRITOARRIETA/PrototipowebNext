@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cancelar turno</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+
+<body class="center">
+
+
+<div class="card turno-card">
+
+
+  <img src="imagenes/logo-cut.png" alt="Logo Next?">
+
+
+  <h2>Cancelar turno</h2>
+
+
+  <p>
+    ¿Está seguro que desea cancelar su turno?
+  </p>
+
+
+ <button class="btn-cancelar" onclick="confirmarCancelacion()">
+  Sí, cancelar turno
+</button>
+
+<button class="btn-form" onclick="volver()">
+  No, volver
+</button>
+
+</div>
+
+
+
+<script>
+
+function confirmarCancelacion(){
+
+  window.location.href = "login.html";
+
+}
+
+
+function volver(){
+
+  window.location.href = "visualizar-turno.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

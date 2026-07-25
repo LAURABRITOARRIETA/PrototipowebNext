@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Atención de turnos</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+  <header class="header">
+
+    <img src="imagenes/logo-cut.png" alt="Logo Next?">
+    <h2>Next?</h2>
+
+  </header>
+
+  <div class="contenedor-turno">
+
+    <h1>Atención de turnos</h1>
+
+    <!-- TURNO ACTUAL -->
+    <div class="card turno-actual">
+
+      <h2>Turno en atención</h2>
+
+      <h1 class="numero-turno" id="numeroTurno">
+        -
+      </h1>
+
+      <p>
+        Usuario:
+        <strong id="nombreTurno">-</strong>
+      </p>
+
+      <p>
+        Trámite:
+        <strong id="tramiteTurno">-</strong>
+      </p>
+
+      <p>
+        Estado:
+        <strong id="estadoTurno">-</strong>
+      </p>
+
+      <button class="btn-form" onclick="atenderSiguiente()">
+        Turno atendido
+      </button>
+
+    </div>
+
+    <!-- LISTA DE ESPERA -->
+
+    <h2>Turnos en espera</h2>
+
+    <div class="lista-espera" id="listaEspera">
+
+    </div>
+
+  </div>
+
+  <script>
+
+    let turnoActual = null;
+
+    async function cargarTurnos() {
+
+      const respuesta = await fetch("/turnos/en-espera");
+
+      const turnos = await respuesta.json();
+
+      const lista = document.getElementById("listaEspera");
+
+      lista.innerHTML = "";
+
+      if (turnos.length === 0) {
+
+        turnoActual = null;
+
+        document.getElementById("numeroTurno").textContent = "-";
+        document.getElementById("nombreTurno").textContent = "No hay turnos";
+        document.getElementById("tramiteTurno").textContent = "-";
+        document.getElementById("estadoTurno").textContent = "-";
+
+        return;
+
+      }
+
+      // Primer turno = turno actual
+      turnoActual = turnos[0];
+
+      document.getElementById("numeroTurno").textContent = turnoActual.id;
+      document.getElementById("nombreTurno").textContent = turnoActual.nombre;
+      document.getElementById("tramiteTurno").textContent = turnoActual.tramite;
+      document.getElementById("estadoTurno").textContent = turnoActual.estado;
+
+      // Los demás quedan en espera
+      for (let i = 1; i < turnos.length; i++) {
+
+        lista.innerHTML += `
+
+<div class="turno-espera">
+
+    <div class="turno-id">
+        <strong>A${String(turnos[i].id).padStart(3, "0")}</strong>
+    </div>
+
+    <div class="turno-info">
+        <span>${turnos[i].tramite}</span>
+        <span>${turnos[i].nombre}</span>
+    </div>
+
+    <button class="btn-eliminar"
+            onclick="eliminarTurno(${turnos[i].id})">
+        Eliminar
+    </button>
+
+</div>
+
+`;
+
+      }
+
+    }
+
+    async function atenderSiguiente() {
+
+      if (!turnoActual) {
+
+        alert("No hay turnos para atender.");
+        return;
+
+      }
+
+      await fetch("/turnos/atender/" + turnoActual.id);
+
+      alert("Turno atendido correctamente.");
+
+      cargarTurnos();
+
+    }
+
+    async function eliminarTurno(id) {
+
+      const confirmar = confirm("¿Desea eliminar este turno?");
+
+      if (!confirmar) return;
+
+      await fetch("/turnos/eliminar/" + id);
+
+      alert("Turno eliminado correctamente.");
+
+      cargarTurnos();
+
+    }
+
+    cargarTurnos();
+
+  </script>
+
+</body>
+
+</html>

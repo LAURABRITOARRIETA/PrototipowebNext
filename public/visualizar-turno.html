@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mi turno</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="center">
+
+  <div class="card turno-card">
+
+    <img src="imagenes/logo-cut.png" alt="Logo Next?">
+
+    <h2>Next?</h2>
+
+    <h3>Tu turno</h3>
+
+    <div class="info-turno">
+
+      <h1 class="numero-turno" id="numeroTurno">
+        -
+      </h1>
+
+      <p>
+        <strong>Estado:</strong>
+        <span class="estado en-espera" id="estadoTurno">
+          -
+        </span>
+      </p>
+
+      <p>
+        Personas delante:
+        <strong id="personasDelante">0</strong>
+      </p>
+
+    </div>
+
+    <button class="btn-cancelar" onclick="cancelarTurno()">
+      Cancelar turno
+    </button>
+
+  </div>
+
+  <script>
+
+    async function cargarTurno() {
+
+      try {
+
+        const respuesta = await fetch("/turnos");
+
+        const turnos = await respuesta.json();
+
+        if (turnos.length === 0) {
+
+          document.getElementById("numeroTurno").textContent = "-";
+          document.getElementById("estadoTurno").textContent = "Sin turnos";
+          document.getElementById("personasDelante").textContent = "0";
+
+          return;
+
+        }
+
+        const turno = turnos[turnos.length - 1];
+
+        document.getElementById("numeroTurno").textContent =
+          "A" + String(turno.id).padStart(3, "0");
+
+        document.getElementById("estadoTurno").textContent =
+          turno.estado;
+
+        document.getElementById("personasDelante").textContent =
+          turnos.length - 1;
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    }
+
+    function cancelarTurno() {
+
+      window.location.href = "confirmar-cancelacion.html";
+
+    }
+
+    cargarTurno();
+
+  </script>
+
+</body>
+
+</html>

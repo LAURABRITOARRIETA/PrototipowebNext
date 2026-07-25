@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="center">
+
+  <div class="card">
+    <img src="imagenes/logo-cut.png" alt="Logo Next?">
+    
+    <h2>Next?</h2>
+    <h3>Gestiona tus turnos sin complicaciones</h3>
+
+    <div class="form">
+      <label for="username">Usuario:</label>
+      <input type="text" id="username" placeholder="Ingrese su usuario">
+
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" placeholder="Ingrese su contraseña">
+
+      <button class="btn-form"  onclick="crearturno()">Iniciar sesión</button>
+
+<p class="link-text">
+  ¿No tienes cuenta?
+  <a href="registro.html">Crear cuenta</a>
+</p>
+    </div>
+
+  </div>
+<script>
+
+function crearturno(){
+
+  window.location.href = "crear-turno.html";
+
+}
+
+</script>
+</body>
+
+</html>
