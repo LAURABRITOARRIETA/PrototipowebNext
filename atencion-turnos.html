@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Atención de turnos</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+
+<header class="header">
+
+  <img src="imagenes/logo.jpeg" alt="Logo Next?">
+  <h2>Next?</h2>
+
+</header>
+
+
+
+<div class="contenedor-turno">
+
+
+  <h1>Atención de turnos</h1>
+
+
+
+  <!-- TURNO ACTUAL -->
+
+  <div class="card turno-actual">
+
+    <h2>Turno en atención</h2>
+
+
+    <h1 class="numero-turno">
+      A001
+    </h1>
+
+
+    <p>
+      Usuario:
+      <strong>Juan Pérez</strong>
+    </p>
+
+
+    <p>
+      Trámite:
+      <strong>Trámite 1</strong>
+    </p>
+
+
+    <p>
+      Prioridad:
+      <strong>Normal</strong>
+    </p>
+
+
+    <button class="btn-form" onclick="atenderSiguiente()">
+      Turno atendido
+    </button>
+
+
+  </div>
+
+
+
+
+  <!-- LISTA DE ESPERA -->
+
+
+  <h2>Turnos en espera</h2>
+
+
+  <div class="lista-espera">
+
+
+    <div class="turno-espera">
+
+      <strong>A002</strong>
+      <span>Trámite 2</span>
+      <span>Normal</span>
+
+    </div>
+
+
+
+    <div class="turno-espera">
+
+      <strong>A003</strong>
+      <span>Trámite 1</span>
+      <span>Urgente</span>
+
+    </div>
+
+
+
+    <div class="turno-espera">
+
+      <strong>A004</strong>
+      <span>Trámite 2</span>
+      <span>Normal</span>
+
+    </div>
+
+
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+function atenderSiguiente(){
+
+  alert("Turno atendido. Pasando al siguiente turno.");
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

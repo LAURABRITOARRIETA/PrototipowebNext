@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  background: #ffffff;
+  text-align: center;
+}
+
+/* CENTRADO */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+select {
+  width: 90% !important;
+  padding: 10px;
+  border: 2px solid red;;
+}
+
+/* TARJETAS */
+.card {
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 5%;
+}
+.form {
+  text-align: left;
+  padding: 0 20px;
+}
+
+.form label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+img {
+  clip-path: circle(40%);
+  width: 45%;
+  height: 45%;
+}
+
+/* INPUTS */
+input,
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 100%;
+}
+
+/* BOTONES */
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 20px;
+  border-radius: 5px;
+  width: 90%;
+  cursor: pointer;
+  font-size: 130%;
+}
+
+/* ESTADOS */
+.estado {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.en-espera {
+  background: orange;
+}
+
+.atendido {
+  background: green;
+}
+
+.cancelado {
+  background: red;
+}
+
+/* TABLA */
+.tabla-center {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+}
+
+.contenedor {
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  width: 90%;
+}
+
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+.link-text {
+  text-align: center;
+  margin-top: 20px;
+}
+.btn-form {
+  display: block;
+  margin: 20px auto;
+  width: 90%;
+}
+/* ENCABEZADO */
+.header {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:15px;
+  padding:20px;
+}
+
+.header img {
+  width:70px;
+  height:70px;
+}
+
+
+/* CONTENEDOR */
+.contenedor-turno {
+  text-align:center;
+  width:90%;
+  max-width:600px;
+  margin:auto;
+}
+
+
+/* SERVICIOS */
+.servicios {
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+
+.servicio {
+
+  border:1px solid #ccc;
+  border-radius:15px;
+  width:200px;
+  padding:20px;
+  cursor:pointer;
+  transition:0.3s;
+
+}
+
+
+.servicio:hover {
+
+  background:#007bff;
+  color:white;
+
+}
+
+
+/* FORMULARIO TURNO */
+.formulario-turno {
+
+  margin-top:30px;
+
+}
+
+
+.formulario-turno select {
+
+  width:100%;
+  padding:15px;
+  border-radius:5px;
+  border:1px solid #ccc;
+
+}
+select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  margin: 10px 0 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 100%;
+}
+.btn-cancelar,
+.btn-form {
+  margin-top: 15px;
+}
+
+.error-card {
+  text-align: center;
+}
+
+.error-card img {
+  width: 120px;
+  height: 120px;
+}
+
+.error-card p {
+  font-size: 18px;
+  margin: 20px;
+}
+/* ATENCION DE TURNOS */
+
+
+.turno-actual {
+
+  text-align:center;
+  margin-bottom:30px;
+
+}
+
+
+.turno-actual .numero-turno {
+
+  color:#007bff;
+  font-size:50px;
+
+}
+
+
+
+.lista-espera {
+
+  width:100%;
+
+}
+
+
+.turno-espera {
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  border-bottom:1px solid #ccc;
+
+  padding:15px;
+
+  background:white;
+
+}
+
+
+.turno-espera strong {
+
+  font-size:20px;
+
+}
