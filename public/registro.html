@@ -33,7 +33,8 @@
       <label for="password">Contraseña:</label>
       <input type="password" id="password" placeholder="Ingrese su contraseña">
 
-     <button class="btn-form" onclick="atencionturnos()">Registrarse</button>
+      <button class="btn-form" onclick="registrarUsuario()">Registrarse</button>
+      <p id="mensaje"></p>
 
       <p class="link-text">
         ¿Ya tienes cuenta?
@@ -43,15 +44,7 @@
     </div>
 
   </div>
-<script>
-
-function atencionturnos(){
-
-  window.location.href = "atencion-turnos.html";
-
-}
-
-</script>
+<script src="/js/registro-controller.js"></script>
 </body>
 
 </html>

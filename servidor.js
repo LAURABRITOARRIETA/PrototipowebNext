@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 
 const turnoRutas = require("./rutas/turno-rutas");
+const usuarioRutas = require("./rutas/usuario-rutas");
 
 // Leer datos JSON
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use(express.static("public"));
 
 // Rutas
 app.use("/turnos", turnoRutas);
+app.use("/usuarios", usuarioRutas);
 
 const PUERTO = 3000;
 
