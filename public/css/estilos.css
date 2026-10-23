@@ -3,72 +3,108 @@
 body {
   font-family: "Open Sans", sans-serif;
   margin: 0;
-  background: #ffffff;
+  background: #f4f6f9; /* Fondo moderno para resaltar las tarjetas */
   text-align: center;
 }
 
-/* CENTRADO */
+/* CENTRADO*/
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* SELECT*/
 select {
   width: 90% !important;
-  padding: 10px;
-  border: 2px solid red;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
-/* TARJETAS */
+/* TARJETA*/
 .card {
-  border: 1px solid #ccc;
+  border: 1px solid #e1e4e8;
   width: 100%;
   max-width: 400px;
   margin: 20px auto;
-  padding: 20px;
-  border-radius: 5%;
+  padding: 30px 20px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
+
 .form {
   text-align: left;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 .form label {
   display: block;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #495057;
 }
 
+/* LOGOTIPO DENTRO DE LA TARJETA */
+.card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  clip-path: circle(50%);
+  margin: 0 auto 15px auto;
+  display: block;
+}
+
+/* IMÁGENES GENERALES */
 img {
   clip-path: circle(40%);
   width: 45%;
   height: 45%;
 }
 
-/* INPUTS */
-input,
-select {
+/* INPUTS*/
+input {
   width: 100%;
   box-sizing: border-box;
-  padding: 15px;
+  padding: 12px 15px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s;
+  background-color: #fff;
 }
 
-/* BOTONES */
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* BOTONES GENERALES */
 button {
   background: #007bff;
   color: white;
   border: none;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 15px 20px;
+  border-radius: 8px;
   width: 90%;
   cursor: pointer;
-  font-size: 130%;
+  font-size: 110%;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #0056b3;
 }
 
 /* ESTADOS */
@@ -90,7 +126,7 @@ button {
   background: red;
 }
 
-/* TABLA */
+/* TABLA Y CONTENEDORES */
 .tabla-center {
   display: flex;
   justify-content: center;
@@ -107,33 +143,36 @@ table {
   width: 100%;
 }
 
-button {
-  width: 90%;
-}
-
 th,
 td {
   padding: 10px;
   border-bottom: 1px solid #ccc;
   text-align: center;
 }
+
 a {
   color: #007bff;
   text-decoration: none;
+  font-weight: 600;
 }
 
 a:hover {
   text-decoration: underline;
 }
+
 .link-text {
   text-align: center;
   margin-top: 20px;
+  font-size: 14px;
+  color: #6c757d;
 }
+
 .btn-form {
   display: block;
   margin: 20px auto;
-  width: 90%;
+  width: 100%;
 }
+
 /* ENCABEZADO */
 .header {
   display: flex;
@@ -141,19 +180,23 @@ a:hover {
   justify-content: center;
   gap: 15px;
   padding: 20px;
+  background: transparent;
 }
 
 .header img {
   width: 70px;
   height: 70px;
+  clip-path: none;
 }
 
-/* CONTENEDOR */
+/* CONTENEDOR DE TURNOS */
 .contenedor-turno {
   text-align: center;
   width: 90%;
   max-width: 600px;
   margin: auto;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 /* SERVICIOS */
@@ -171,6 +214,7 @@ a:hover {
   padding: 20px;
   cursor: pointer;
   transition: 0.3s;
+  background: #fff;
 }
 
 .servicio:hover {
@@ -185,19 +229,11 @@ a:hover {
 
 .formulario-turno select {
   width: 100%;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
 }
-select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 15px;
-  margin: 10px 0 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 100%;
-}
+
 .btn-cancelar,
 .btn-form {
   margin-top: 15px;
@@ -216,8 +252,10 @@ select {
   font-size: 18px;
   margin: 20px;
 }
-/* ATENCION DE TURNOS */
 
+/* ==========================
+   ATENCION DE TURNOS Y LISTAS
+========================== */
 .turno-actual {
   text-align: center;
   margin-bottom: 30px;
@@ -229,6 +267,10 @@ select {
 }
 
 .lista-espera {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
   width: 100%;
 }
 
@@ -236,39 +278,9 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  border-bottom: 1px solid #ccc;
-
-  padding: 15px;
-
-  background: white;
-}
-
-.turno-espera strong {
-  font-size: 20px;
-}
-
-/* ==========================
-   LISTA DE TURNOS EN ESPERA
-========================== */
-
-.lista-espera {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.turno-espera {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
   padding: 15px 20px;
-
   border: 1px solid #ddd;
   border-radius: 10px;
-
   background: #fff;
 }
 
@@ -297,20 +309,38 @@ select {
 .btn-eliminar {
   width: 110px;
   padding: 10px 15px;
-
   font-size: 15px;
-
   background: #dc3545;
-
   color: #fff;
-
   border: none;
-
   border-radius: 6px;
-
   cursor: pointer;
 }
 
 .btn-eliminar:hover {
   background: #bb2d3b;
+}
+
+/* MENSAJE DE ESTADO */
+#mensaje {
+  font-size: 14px;
+  color: #dc3545;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 20px 15px;
+    margin: 10px auto;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 100%;
+  }
 }

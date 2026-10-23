@@ -1,66 +1,72 @@
 async function registrarUsuario() {
+  const apellido = document.getElementById("apellido").value.trim();
+  const nombre = document.getElementById("nombre").value.trim();
+  const cedula = document.getElementById("cedula").value.trim();
+  const fecha = document.getElementById("fecha").value;
+  const usuario = document.getElementById("usuario").value.trim();
+  const password = document.getElementById("password").value;
+  const mensaje = document.getElementById("mensaje");
 
-    const apellido = document.getElementById("apellido").value;
-    const nombre = document.getElementById("nombre").value;
-    const cedula = document.getElementById("cedula").value;
-    const fecha = document.getElementById("fecha").value;
-    const usuario = document.getElementById("usuario").value;
-    const password = document.getElementById("password").value;
+  mensaje.textContent = "";
 
-    const mensaje = document.getElementById("mensaje");
+  if (
+    !apellido ||
+    !nombre ||
+    !cedula ||
+    !fecha ||
+    !usuario ||
+    !password.trim()
+  ) {
+    mensaje.textContent = "Complete todos los campos.";
+    return;
+  }
 
-    // Verificar campos
-    if (
-        apellido === "" ||
-        nombre === "" ||
-        cedula === "" ||
-        fecha === "" ||
-        usuario === "" ||
-        password === ""
-    ) {
-        mensaje.textContent = "Complete todos los campos";
-        return;
+  if (!/^\d+$/.test(cedula)) {
+    mensaje.textContent = "La cédula debe contener solo números.";
+    return;
+  }
+
+  const hoy = new Date();
+  const fechaActual = new Date(hoy.getTime() - hoy.getTimezoneOffset() * 60000)
+    .toISOString()
+    .split("T")[0];
+
+  if (fecha > fechaActual) {
+    mensaje.textContent = "La fecha de nacimiento no puede ser futura.";
+    return;
+  }
+
+  try {
+    const respuesta = await fetch("/usuarios/registro", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        apellido,
+        nombre,
+        cedula,
+        fecha_nacimiento: fecha,
+        usuario,
+        password,
+      }),
+    });
+
+    const datos = await respuesta.json();
+
+    if (!respuesta.ok) {
+      mensaje.textContent =
+        datos.mensaje || "No fue posible registrar el usuario.";
+      return;
     }
 
-    try {
+    mensaje.textContent = datos.mensaje;
 
-        const respuesta = await fetch("/usuarios/registro", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                apellido: apellido,
-                nombre: nombre,
-                cedula: cedula,
-                fecha_nacimiento: fecha,
-                usuario: usuario,
-                password: password
-            })
-        });
-
-        const datos = await respuesta.json();
-
-        if (!respuesta.ok) {
-            mensaje.textContent = datos.mensaje;
-            return;
-        }
-
-        mensaje.textContent = datos.mensaje;
-
-        // Después de registrarse, ir al login
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1000);
-
-    } catch (error) {
-
-        console.error(error);
-
-        mensaje.textContent =
-            "No se pudo conectar con el servidor.";
-    }
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1000);
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
+    mensaje.textContent = "No se pudo conectar con el servidor.";
+  }
 }
