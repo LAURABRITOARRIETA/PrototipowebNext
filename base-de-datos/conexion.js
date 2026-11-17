@@ -1,6 +1,6 @@
 /**
  * @file conexion.js
- * @description Establece el pool de conexiones con PostgreSQL.
+ * @description Establece el pool de conexiones con PostgreSQL usando variables de entorno.
  */
 
 const { Pool } = require("pg");
@@ -12,11 +12,11 @@ const pool = new Pool(
         ssl: { rejectUnauthorized: false },
       }
     : {
-        host: "127.0.0.1",
-        user: "postgres",
-        password: "aqua1234",
-        database: "next",
-        port: 5432,
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: process.env.DB_PORT || 5432,
       }
 );
 

@@ -6,14 +6,16 @@
 const express = require("express");
 const router = express.Router();
 const usuarioController = require("../controladores/usuario-controlador");
+const { verificarRolAPI } = require("../middlewares/seguridad-middleware");
 
+// Rutas públicas
 router.post("/registro", usuarioController.registrarUsuario);
 router.post("/login", usuarioController.login);
 router.post("/logout", usuarioController.logout);
 
-// Rutas para el panel del administrador
-router.get("/", usuarioController.listarUsuarios);
-router.put("/:id/aprobar", usuarioController.aprobarUsuario);
-router.delete("/:id", usuarioController.eliminarUsuario);
+// Rutas protegidas (solo Administrador)
+router.get("/", verificarRolAPI("admin"), usuarioController.listarUsuarios);
+router.put("/:id/aprobar", verificarRolAPI("admin"), usuarioController.aprobarUsuario);
+router.delete("/:id", verificarRolAPI("admin"), usuarioController.eliminarUsuario);
 
 module.exports = router;
