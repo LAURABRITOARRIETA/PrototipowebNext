@@ -4,17 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atención de turnos</title>
+  <title>Atención de turnos - Next?</title>
   <link rel="stylesheet" href="./css/estilos.css">
 </head>
 
 <body>
 
-  <header class="header">
-
-    <img src="imagenes/logo-cut.png" alt="Logo Next?">
-    <h2>Next?</h2>
-
+  <header class="header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="imagenes/logo-cut.png" alt="Logo Next?">
+      <h2>Next?</h2>
+    </div>
+    <button onclick="cerrarSesion()" class="btn-cancelar" style="width: auto; padding: 8px 16px; margin: 0;">
+      Cerrar sesión
+    </button>
   </header>
 
   <div class="contenedor-turno">
@@ -26,13 +29,16 @@
 
       <h2>Turno en atención</h2>
 
-      <h1 class="numero-turno" id="numeroTurno">
-        -
-      </h1>
+      <h1 class="numero-turno" id="numeroTurno">-</h1>
 
       <p>
-        Usuario:
+        Ciudadano:
         <strong id="nombreTurno">-</strong>
+      </p>
+
+      <p>
+        Cédula:
+        <strong id="cedulaTurno">-</strong>
       </p>
 
       <p>
@@ -52,112 +58,88 @@
     </div>
 
     <!-- LISTA DE ESPERA -->
-
     <h2>Turnos en espera</h2>
 
-    <div class="lista-espera" id="listaEspera">
-
-    </div>
+    <div class="lista-espera" id="listaEspera"></div>
 
   </div>
 
   <script>
-
     let turnoActual = null;
 
     async function cargarTurnos() {
-
       const respuesta = await fetch("/turnos/en-espera");
-
       const turnos = await respuesta.json();
 
       const lista = document.getElementById("listaEspera");
-
       lista.innerHTML = "";
 
       if (turnos.length === 0) {
-
         turnoActual = null;
-
         document.getElementById("numeroTurno").textContent = "-";
-        document.getElementById("nombreTurno").textContent = "No hay turnos";
+        document.getElementById("nombreTurno").textContent = "No hay turnos en espera";
+        document.getElementById("cedulaTurno").textContent = "-";
         document.getElementById("tramiteTurno").textContent = "-";
         document.getElementById("estadoTurno").textContent = "-";
-
         return;
-
       }
 
-      // Primer turno = turno actual
+      // Primer turno en cola = turno actual
       turnoActual = turnos[0];
 
-      document.getElementById("numeroTurno").textContent = turnoActual.id;
+      document.getElementById("numeroTurno").textContent =
+        "A" + String(turnoActual.id).padStart(3, "0");
       document.getElementById("nombreTurno").textContent = turnoActual.nombre;
+      document.getElementById("cedulaTurno").textContent = turnoActual.cedula;
       document.getElementById("tramiteTurno").textContent = turnoActual.tramite;
       document.getElementById("estadoTurno").textContent = turnoActual.estado;
 
-      // Los demás quedan en espera
+      // Los demás quedan en la lista de espera
       for (let i = 1; i < turnos.length; i++) {
-
         lista.innerHTML += `
-
-<div class="turno-espera">
-
-    <div class="turno-id">
-        <strong>A${String(turnos[i].id).padStart(3, "0")}</strong>
-    </div>
-
-    <div class="turno-info">
-        <span>${turnos[i].tramite}</span>
-        <span>${turnos[i].nombre}</span>
-    </div>
-
-    <button class="btn-eliminar"
-            onclick="eliminarTurno(${turnos[i].id})">
-        Eliminar
-    </button>
-
-</div>
-
-`;
-
+          <div class="turno-espera">
+            <div class="turno-id">
+              <strong>A${String(turnos[i].id).padStart(3, "0")}</strong>
+            </div>
+            <div class="turno-info">
+              <span>${turnos[i].tramite}</span>
+              <span>${turnos[i].nombre} (CC: ${turnos[i].cedula})</span>
+            </div>
+            <button class="btn-eliminar" onclick="eliminarTurno(${turnos[i].id})">
+              Eliminar
+            </button>
+          </div>
+        `;
       }
-
     }
 
     async function atenderSiguiente() {
-
       if (!turnoActual) {
-
         alert("No hay turnos para atender.");
         return;
-
       }
 
-      await fetch("/turnos/atender/" + turnoActual.id);
-
+      await fetch(`/turnos/atender/${turnoActual.id}`, { method: "PUT" });
       alert("Turno atendido correctamente.");
-
       cargarTurnos();
-
     }
 
     async function eliminarTurno(id) {
-
       const confirmar = confirm("¿Desea eliminar este turno?");
-
       if (!confirmar) return;
 
-      await fetch("/turnos/eliminar/" + id);
-
+      await fetch(`/turnos/${id}`, { method: "DELETE" });
       alert("Turno eliminado correctamente.");
-
       cargarTurnos();
+    }
 
+    async function cerrarSesion() {
+      await fetch("/usuarios/logout", { method: "POST" });
+      sessionStorage.clear();
+      window.location.href = "login.html";
     }
 
     cargarTurnos();
-
   </script>
 
 </body>

@@ -4,56 +4,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cancelar turno</title>
+  <title>Cancelar turno - Next?</title>
   <link rel="stylesheet" href="./css/estilos.css">
 </head>
 
-
 <body class="center">
 
+  <div class="card turno-card">
 
-<div class="card turno-card">
+    <img src="imagenes/logo-cut.png" alt="Logo Next?">
 
+    <h2>Cancelar turno</h2>
 
-  <img src="imagenes/logo-cut.png" alt="Logo Next?">
+    <p id="textoConfirmacion">
+      ¿Está seguro que desea cancelar su turno? Esta acción no se puede deshacer.
+    </p>
 
+    <button id="btnSi" class="btn-cancelar" onclick="confirmarCancelacion()">
+      Sí, cancelar turno
+    </button>
 
-  <h2>Cancelar turno</h2>
+    <button id="btnNo" class="btn-form" onclick="volver()">
+      No, volver
+    </button>
 
+  </div>
 
-  <p>
-    ¿Está seguro que desea cancelar su turno?
-  </p>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
 
+    async function confirmarCancelacion() {
+      if (!token) {
+        alert("Token de turno no válido.");
+        return;
+      }
 
- <button class="btn-cancelar" onclick="confirmarCancelacion()">
-  Sí, cancelar turno
-</button>
+      try {
+        const res = await fetch(`/turnos/cancelar/${token}`, {
+          method: "PUT",
+        });
 
-<button class="btn-form" onclick="volver()">
-  No, volver
-</button>
+        const datos = await res.json();
 
-</div>
+        if (!res.ok) {
+          alert(datos.mensaje || "No se pudo cancelar el turno.");
+          return;
+        }
 
+        alert(datos.mensaje);
+        window.location.href = `visualizar-turno.html?token=${token}`;
+      } catch (error) {
+        console.error(error);
+        alert("Error de conexión con el servidor.");
+      }
+    }
 
-
-<script>
-
-function confirmarCancelacion(){
-
-  window.location.href = "login.html";
-
-}
-
-
-function volver(){
-
-  window.location.href = "visualizar-turno.html";
-
-}
-
-</script>
+    function volver() {
+      if (token) {
+        window.location.href = `visualizar-turno.html?token=${token}`;
+      } else {
+        window.history.back();
+      }
+    }
+  </script>
 
 </body>
 

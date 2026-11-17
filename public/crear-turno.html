@@ -4,16 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crear turno</title>
+  <title>Crear turno - Next?</title>
   <link rel="stylesheet" href="./css/estilos.css">
 </head>
 
 <body>
 
   <!-- ENCABEZADO -->
-  <header class="header">
-    <img src="imagenes/logo-cut.png" alt="Logo Next?">
-    <h2>Next?</h2>
+  <header class="header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="imagenes/logo-cut.png" alt="Logo Next?">
+      <h2>Next?</h2>
+    </div>
+    <button onclick="cerrarSesion()" class="btn-cancelar" style="width: auto; padding: 8px 16px; margin: 0;">
+      Cerrar sesión
+    </button>
   </header>
 
   <div class="contenedor-turno">
@@ -42,57 +47,90 @@
 
       <h2 id="tituloServicio"></h2>
 
-      <form class="form" action="/turnos" method="POST">
+      <div class="form">
 
-        <!-- Se envía automáticamente el trámite seleccionado -->
-        <input type="hidden" id="tramite" name="tramite">
+        <input type="hidden" id="tramite">
 
-        <label>Apellido:</label>
-        <input type="text" placeholder="Ingrese su apellido">
+        <label for="nombre">Nombre completo del ciudadano:</label>
+        <input type="text" id="nombre" placeholder="Ingrese el nombre completo" required>
 
-        <label>Nombre:</label>
-        <input type="text" name="nombre" placeholder="Ingrese su nombre" required>
+        <label for="cedula">Número de cédula:</label>
+        <input type="text" id="cedula" placeholder="Ingrese el número de cédula" required>
 
-        <label>Número de cédula:</label>
-        <input type="text" name="cedula" placeholder="Ingrese su cédula" required>
+        <label for="correo">Correo electrónico del ciudadano:</label>
+        <input type="email" id="correo" placeholder="ciudadano@correo.com" required>
 
-        <label>Fecha de nacimiento:</label>
-        <input type="date">
-
-        <label>Usuario:</label>
-        <input type="text" placeholder="Ingrese su usuario">
-
-        <label>Prioridad:</label>
-
-        <select>
-          <option value="">Seleccione prioridad</option>
-          <option>Normal</option>
-          <option>Preferencial</option>
-          <option>Urgente</option>
-        </select>
-
-        <button type="submit" class="btn-form">
-          Crear turno
+        <button type="button" class="btn-form" onclick="registrarTurno()">
+          Crear turno y enviar correo
         </button>
 
-      </form>
+        <p id="mensajeTurno" style="margin-top: 12px; font-weight: bold;"></p>
+
+      </div>
 
     </div>
 
   </div>
 
   <script>
-
     function mostrarFormulario(servicio) {
-
       document.getElementById("formulario").style.display = "block";
-
-      document.getElementById("tituloServicio").innerHTML = servicio;
-
+      document.getElementById("tituloServicio").textContent = servicio;
       document.getElementById("tramite").value = servicio;
-
+      document.getElementById("mensajeTurno").textContent = "";
     }
 
+    async function registrarTurno() {
+      const tramite = document.getElementById("tramite").value;
+      const nombre = document.getElementById("nombre").value.trim();
+      const cedula = document.getElementById("cedula").value.trim();
+      const correo = document.getElementById("correo").value.trim();
+      const mensaje = document.getElementById("mensajeTurno");
+
+      mensaje.style.color = "red";
+
+      if (!nombre || !cedula || !correo || !tramite) {
+        mensaje.textContent = "Complete todos los campos.";
+        return;
+      }
+
+      if (!/^\d+$/.test(cedula)) {
+        mensaje.textContent = "La cédula debe contener solo números.";
+        return;
+      }
+
+      try {
+        const respuesta = await fetch("/turnos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nombre, cedula, correo, tramite }),
+        });
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+          mensaje.textContent = datos.mensaje || "No se pudo crear el turno.";
+          return;
+        }
+
+        mensaje.style.color = "green";
+        mensaje.innerHTML = `${datos.mensaje}<br><a href="${datos.turno.enlace}" target="_blank">Abrir vista del cliente (${datos.turno.codigo})</a>`;
+
+        // Limpiar campos para el siguiente ciudadano
+        document.getElementById("nombre").value = "";
+        document.getElementById("cedula").value = "";
+        document.getElementById("correo").value = "";
+      } catch (error) {
+        console.error(error);
+        mensaje.textContent = "Error de conexión con el servidor.";
+      }
+    }
+
+    async function cerrarSesion() {
+      await fetch("/usuarios/logout", { method: "POST" });
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    }
   </script>
 
 </body>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi turno</title>
+  <title>Mi turno - Next?</title>
   <link rel="stylesheet" href="./css/estilos.css">
 </head>
 
@@ -16,81 +16,81 @@
 
     <h2>Next?</h2>
 
-    <h3>Tu turno</h3>
+    <h3 id="saludoCliente">Tu turno</h3>
 
-    <div class="info-turno">
+    <div class="info-turno" id="contenedorInfo">
 
-      <h1 class="numero-turno" id="numeroTurno">
-        -
-      </h1>
+      <h1 class="numero-turno" id="numeroTurno">-</h1>
 
       <p>
-        <strong>Estado:</strong>
-        <span class="estado en-espera" id="estadoTurno">
-          -
-        </span>
+        <strong>Trámite:</strong>
+        <span id="tramiteTurno">-</span>
       </p>
 
       <p>
+        <strong>Estado:</strong>
+        <span class="estado en-espera" id="estadoTurno">-</span>
+      </p>
+
+      <p id="bloqueDelante">
         Personas delante:
         <strong id="personasDelante">0</strong>
       </p>
 
     </div>
 
-    <button class="btn-cancelar" onclick="cancelarTurno()">
+    <button id="btnCancelar" class="btn-cancelar" onclick="irACancelar()" style="display:none;">
       Cancelar turno
     </button>
 
   </div>
 
   <script>
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
 
     async function cargarTurno() {
-
-      try {
-
-        const respuesta = await fetch("/turnos");
-
-        const turnos = await respuesta.json();
-
-        if (turnos.length === 0) {
-
-          document.getElementById("numeroTurno").textContent = "-";
-          document.getElementById("estadoTurno").textContent = "Sin turnos";
-          document.getElementById("personasDelante").textContent = "0";
-
-          return;
-
-        }
-
-        const turno = turnos[turnos.length - 1];
-
-        document.getElementById("numeroTurno").textContent =
-          "A" + String(turno.id).padStart(3, "0");
-
-        document.getElementById("estadoTurno").textContent =
-          turno.estado;
-
-        document.getElementById("personasDelante").textContent =
-          turnos.length - 1;
-
-      } catch (error) {
-
-        console.log(error);
-
+      if (!token) {
+        document.getElementById("numeroTurno").textContent = "!";
+        document.getElementById("estadoTurno").textContent = "Enlace sin token válido";
+        document.getElementById("bloqueDelante").style.display = "none";
+        return;
       }
 
+      try {
+        const respuesta = await fetch(`/turnos/detalle/${token}`);
+        const turno = await respuesta.json();
+
+        if (!respuesta.ok) {
+          document.getElementById("numeroTurno").textContent = "!";
+          document.getElementById("estadoTurno").textContent = turno.mensaje || "Turno no encontrado";
+          document.getElementById("bloqueDelante").style.display = "none";
+          return;
+        }
+
+        document.getElementById("saludoCliente").textContent = `Hola, ${turno.nombre}`;
+        document.getElementById("numeroTurno").textContent = turno.codigo;
+        document.getElementById("tramiteTurno").textContent = turno.tramite;
+        document.getElementById("estadoTurno").textContent = turno.estado;
+
+        if (turno.estado === "EN_ESPERA") {
+          document.getElementById("personasDelante").textContent = turno.personasDelante;
+          document.getElementById("btnCancelar").style.display = "inline-block";
+        } else {
+          document.getElementById("bloqueDelante").style.display = "none";
+          document.getElementById("btnCancelar").style.display = "none";
+        }
+      } catch (error) {
+        console.error(error);
+        document.getElementById("estadoTurno").textContent = "Error al conectar con el servidor";
+      }
     }
 
-    function cancelarTurno() {
-
-      window.location.href = "confirmar-cancelacion.html";
-
+    function irACancelar() {
+      window.location.href = `confirmar-cancelacion.html?token=${token}`;
     }
 
     cargarTurno();
-
   </script>
 
 </body>
