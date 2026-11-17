@@ -1,28 +1,33 @@
 /**
  * @file conexion.js
- * @description Establece la conexión con la base de datos PostgreSQL usando el cliente nativo.
+ * @description Establece el pool de conexiones con PostgreSQL.
  */
 
-const { Client } = require("pg");
+const { Pool } = require("pg");
 
-const client = new Client({
-  host: "127.0.0.1",
-  user: "postgres",
-  password: "aqua1234",
-  database: "next",
-  port: 5432,
-});
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+      }
+    : {
+        host: "127.0.0.1",
+        user: "postgres",
+        password: "aqua1234",
+        database: "next",
+        port: 5432,
+      }
+);
 
-async function conectar() {
-  try {
-    await client.connect();
+pool
+  .connect()
+  .then((client) => {
     console.log("Conectado a PostgreSQL exitosamente.");
-  } catch (error) {
-    console.error("Error al conectar con la base de datos:");
-    console.error(error);
-  }
-}
+    client.release();
+  })
+  .catch((error) => {
+    console.error("Error al conectar con la base de datos:", error);
+  });
 
-conectar();
-
-module.exports = client;
+module.exports = pool;
